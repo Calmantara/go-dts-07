@@ -1,0 +1,34 @@
+package main
+
+import (
+	"flag"
+	"fmt"
+	"os"
+)
+
+func main() {
+	// menangkap arg
+	fmt.Println("all arguments:", os.Args)
+	// argument ke 0 -> akan selalu lokasi dari exe
+	// argument ke 1 . . . n -> inputan dari user bertipe string
+
+	var configName string
+	flag.StringVar(
+		&configName,
+		"config",
+		"local",
+		"name of config file for this program",
+	)
+
+	var user string
+	flag.StringVar(
+		&user,
+		"user",
+		"admin",
+		"user input from program",
+	)
+	flag.Parse()
+	
+	fmt.Println("config flag:", configName)
+	fmt.Println("user flag:", user)
+}
