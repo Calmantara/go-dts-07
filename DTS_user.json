@@ -1,0 +1,113 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "DTS",
+    "dateExported": "2023-03-20T14:59:48.714Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "987503ba-6689-48e3-9d0d-8c868d47f59e",
+            "name": "user",
+            "containerId": "",
+            "created": "2023-03-20T14:02:19.355Z",
+            "sortNum": 10000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "305aa6ef-0705-463a-a1e3-fe8c821f5e9e",
+            "colId": "95246c47-1269-4760-9504-9b30f712f145",
+            "containerId": "987503ba-6689-48e3-9d0d-8c868d47f59e",
+            "name": "Users",
+            "url": "http://127.0.0.1:9090/users",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-03-20T14:02:32.429Z",
+            "modified": "2023-03-20T14:02:45.040Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "f9b9d038-da5e-4cf3-b93f-2ad1605131db",
+            "colId": "95246c47-1269-4760-9504-9b30f712f145",
+            "containerId": "987503ba-6689-48e3-9d0d-8c868d47f59e",
+            "name": "User by ID",
+            "url": "http://127.0.0.1:9090/user?id=3",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-03-20T14:15:34.826Z",
+            "modified": "2023-03-20T14:42:45.759Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "3",
+                    "isPath": false
+                },
+                {
+                    "name": "name",
+                    "value": "calman",
+                    "isDisabled": true,
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "a5321912-f82e-4914-8337-7004d255769c",
+            "colId": "95246c47-1269-4760-9504-9b30f712f145",
+            "containerId": "987503ba-6689-48e3-9d0d-8c868d47f59e",
+            "name": "User",
+            "url": "http://127.0.0.1:9090/user",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-03-20T14:38:18.626Z",
+            "modified": "2023-03-20T14:42:54.378Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Putra Calman\",\n  \"email\":\"putra1@gmail.com\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "thisisverysecrettoken"
+            },
+            "tests": []
+        },
+        {
+            "_id": "2e81de08-7897-42f3-a3c3-7567b703eccd",
+            "colId": "95246c47-1269-4760-9504-9b30f712f145",
+            "containerId": "987503ba-6689-48e3-9d0d-8c868d47f59e",
+            "name": "User",
+            "url": "http://127.0.0.1:9090/user/1",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2023-03-20T14:44:03.904Z",
+            "modified": "2023-03-20T14:53:56.630Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Tararara\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "5af1c9f7-4c4f-44f2-85f8-439614e636f5",
+            "colId": "95246c47-1269-4760-9504-9b30f712f145",
+            "containerId": "987503ba-6689-48e3-9d0d-8c868d47f59e",
+            "name": "User",
+            "url": "http://127.0.0.1:9090/user/3",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2023-03-20T14:53:27.580Z",
+            "modified": "2023-03-20T14:54:15.817Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}
