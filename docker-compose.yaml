@@ -1,0 +1,47 @@
+version: '3.9'
+services:
+  go-dts-user:
+    hostname: go-dts-user
+    build: 
+      context: app/go-dts-user
+      dockerfile: deployment/build/Dockerfile
+      no_cache: true
+    # ports:
+    #   - "9090-9092:9090"
+    links:
+     - postgres
+    deploy:
+      mode: replicated
+      endpoint_mode: dnsrr
+      replicas: 3
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+    networks:
+      - backend
+  nginx:
+    container_name: nginx-dts
+    build: nginx/.
+    links:
+     - go-dts-user
+    ports:
+      - 80:80
+    networks:
+      - backend
+  postgres:
+    container_name: postgres-dts
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+    ports:
+     - "25432:5432"
+    networks:
+      - backend
+networks:
+  backend:
+    name: backend-network
+    driver: bridge
