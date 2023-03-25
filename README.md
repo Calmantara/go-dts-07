@@ -1,12 +1,26 @@
 # DTS BATCH 7
 
-1. Internet
-2. Software Engineering (Backend, Frontend)
-3. Common Architecture (Monolith)
-4. Web Server using Gin
-  i. clean architecture usecase
-  ii. CRUD usecase
-5. Software Development Life Cycle
-6. Software Hardening (binary and docker)
+1. Why database exist and what is database?
+2. Type of database
+3. Relational Database
+4. DDL (Data Definition Language)
+   i. ERD
+   ii. Create Database
+   iii. Create Table
+   iv. Create Table Relation
+5. DML (Data Manipulation Language)
+   i. Select
+   ii. Insert
+   iii. Update
+   iv. Delete
+   v. Transaction
+6. ACID Theorem Intro
+https://medium.com/@ugurekmekci/acid-theorem-7965df588b24
+7. Golang Implementation
 
-[day7](./day7.png)
+[day8](./day8.png)
+
+```
+go get -u github.com/gin-gonic/gin
+go get -u github.com/lib/pq
+```

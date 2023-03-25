@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "DTS",
-    "dateExported": "2023-03-20T14:59:48.714Z",
+    "dateExported": "2023-03-25T07:13:19.952Z",
     "version": "1.1",
     "folders": [
         {
@@ -18,11 +18,11 @@
             "colId": "95246c47-1269-4760-9504-9b30f712f145",
             "containerId": "987503ba-6689-48e3-9d0d-8c868d47f59e",
             "name": "Users",
-            "url": "http://127.0.0.1:9090/users",
+            "url": "http://127.0.0.1:9090/api/v1/user/all",
             "method": "GET",
             "sortNum": 10000,
             "created": "2023-03-20T14:02:32.429Z",
-            "modified": "2023-03-20T14:02:45.040Z",
+            "modified": "2023-03-25T06:56:09.348Z",
             "headers": [],
             "params": [],
             "tests": []
@@ -32,16 +32,16 @@
             "colId": "95246c47-1269-4760-9504-9b30f712f145",
             "containerId": "987503ba-6689-48e3-9d0d-8c868d47f59e",
             "name": "User by ID",
-            "url": "http://127.0.0.1:9090/user?id=3",
+            "url": "http://127.0.0.1:9090/api/v1/user?id=10",
             "method": "GET",
             "sortNum": 20000,
             "created": "2023-03-20T14:15:34.826Z",
-            "modified": "2023-03-20T14:42:45.759Z",
+            "modified": "2023-03-25T07:03:26.686Z",
             "headers": [],
             "params": [
                 {
                     "name": "id",
-                    "value": "3",
+                    "value": "10",
                     "isPath": false
                 },
                 {
@@ -58,16 +58,16 @@
             "colId": "95246c47-1269-4760-9504-9b30f712f145",
             "containerId": "987503ba-6689-48e3-9d0d-8c868d47f59e",
             "name": "User",
-            "url": "http://127.0.0.1:9090/user",
+            "url": "http://127.0.0.1:9090/api/v1/user",
             "method": "POST",
             "sortNum": 30000,
             "created": "2023-03-20T14:38:18.626Z",
-            "modified": "2023-03-20T14:42:54.378Z",
+            "modified": "2023-03-25T07:02:16.810Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"name\":\"Putra Calman\",\n  \"email\":\"putra1@gmail.com\"\n}",
+                "raw": "{\n  \"name\":\"Putra\",\n  \"email\":\"putra@gmail.com\",\n  \"dob\":\"2020-12-20T00:00:00Z\"\n}",
                 "form": []
             },
             "auth": {
@@ -81,16 +81,16 @@
             "colId": "95246c47-1269-4760-9504-9b30f712f145",
             "containerId": "987503ba-6689-48e3-9d0d-8c868d47f59e",
             "name": "User",
-            "url": "http://127.0.0.1:9090/user/1",
+            "url": "http://127.0.0.1:9090/api/v1/user/1",
             "method": "PUT",
             "sortNum": 40000,
             "created": "2023-03-20T14:44:03.904Z",
-            "modified": "2023-03-20T14:53:56.630Z",
+            "modified": "2023-03-25T07:10:19.362Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"name\":\"Tararara\"\n}",
+                "raw": "  {\n    \"id\": 1,\n    \"name\": \"calman2\",\n    \"email\": \"calman2@gmail.com\",\n    \"dob\": \"2010-12-21T00:00:00Z\"\n  }",
                 "form": []
             },
             "tests": []
@@ -100,11 +100,11 @@
             "colId": "95246c47-1269-4760-9504-9b30f712f145",
             "containerId": "987503ba-6689-48e3-9d0d-8c868d47f59e",
             "name": "User",
-            "url": "http://127.0.0.1:9090/user/3",
+            "url": "http://127.0.0.1:9090/api/v1/user/10",
             "method": "DELETE",
             "sortNum": 50000,
             "created": "2023-03-20T14:53:27.580Z",
-            "modified": "2023-03-20T14:54:15.817Z",
+            "modified": "2023-03-25T07:03:52.092Z",
             "headers": [],
             "params": [],
             "tests": []
