@@ -11,10 +11,12 @@ services:
      - postgres
     depends_on:
       - postgres
+    ports:
+      - "9090:9090"
     deploy:
       mode: replicated
       endpoint_mode: dnsrr
-      replicas: 3
+      replicas: 1
       resources:
         limits:
           cpus: '0.50'
@@ -22,20 +24,6 @@ services:
         reservations:
           cpus: '0.25'
           memory: 20M
-    networks:
-      - backend
-  nginx:
-    restart: on-failure
-    container_name: nginx-dts
-    build: 
-      context: nginx
-      dockerfile: Dockerfile
-    depends_on:
-     - go-dts-user
-    links:
-     - go-dts-user
-    ports:
-      - 80:80
     networks:
       - backend
   postgres:

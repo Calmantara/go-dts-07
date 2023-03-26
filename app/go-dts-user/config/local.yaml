@@ -1,0 +1,18 @@
+server:
+  name: go-dts-user
+  env: local
+  http:
+    port: 9090
+dataSource:
+  mode: GORM
+  migrate: false
+  postgres:
+    master:
+      host: 127.0.0.1
+      port: 25432
+      dbName: user_management
+      username: postgres
+      password: mysecretpassword
+      maxIdleConnection: 10
+      maxOpenConnection: 10
+      maxIdleTime: 10
