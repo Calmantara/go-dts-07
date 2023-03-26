@@ -14,7 +14,12 @@ type handlers struct {
 func initDI() handlers {
 	dataStore := config.ConnectDataStore()
 	userRepo := userrepo.NewUserMap(dataStore)
-	if config.DATABASE == "PG" {
+
+	switch config.Load.DataSource.Mode {
+	case config.MODE_GORM:
+		pgConn := config.NewPostgresConn()
+		userRepo = userrepo.NewUserPgRepo(pgConn)
+	case config.MODE_PG:
 		pgConn := config.NewPostgresConn()
 		userRepo = userrepo.NewUserPgRepo(pgConn)
 	}
