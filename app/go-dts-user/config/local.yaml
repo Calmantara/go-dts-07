@@ -8,7 +8,7 @@ dataSource:
   migrate: false
   postgres:
     master:
-      host: 127.0.0.1
+      host: postgres
       port: 25432
       dbName: user_management
       username: postgres

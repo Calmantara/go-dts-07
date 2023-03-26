@@ -30,7 +30,6 @@ func (u *UserPgRepoImpl) FindUserById(ctx context.Context, userId uint64) (user 
 		WHERE u.id = $1
 			AND deleted_at is null;
 	`
-	// $1 -> sql argument / variable inputan
 	// prepare untuk checking error di query
 	stmt, err := u.db.PrepareContext(ctx, query)
 	if err != nil {

@@ -44,14 +44,6 @@ func (u *UserGormRepoImpl) doMigration() (err error) {
 }
 
 func (u *UserGormRepoImpl) FindUserByIdEager(ctx context.Context, userId uint64) (user model.User, err error) {
-	// Eager
-	// akan memasukkan semua value
-	// dari relasi ke dalam struct
-
-	// ex: User ada property Photos []UserPhoto `json:"photos"
-	// eager loading, dia akan mengquery photos
-	// dan langsung dimasukkan ke dalam user struct
-
 	// eager from user to photo
 	tx := u.db.
 		Model(&model.User{}).
@@ -123,15 +115,11 @@ func (u *UserGormRepoImpl) FindUserByIdJoin(ctx context.Context, userId uint64) 
 }
 
 func (u *UserGormRepoImpl) FindUserById(ctx context.Context, userId uint64) (user model.User, err error) {
-
 	tx := u.db.
 		Model(&model.User{}).
 		Where("id = ?", userId).
 		Find(&user)
-	// ketika kita menggunakan auto migrate
-	// di method, kita tidak perlu menambahkan
-	// deleted_at is null
-	// karena gorm udah auto nambahin itu
+
 	if err = tx.Error; err != nil {
 		return
 	}
@@ -144,7 +132,6 @@ func (u *UserGormRepoImpl) FindUserById(ctx context.Context, userId uint64) (use
 }
 
 func (u *UserGormRepoImpl) FindAllUsers(ctx context.Context) (users []model.User, err error) {
-
 	tx := u.db.
 		Model(&model.User{}).
 		Find(&users).
@@ -158,12 +145,6 @@ func (u *UserGormRepoImpl) FindAllUsers(ctx context.Context) (users []model.User
 }
 
 func (u *UserGormRepoImpl) InsertUser(ctx context.Context, userIn model.User) (user model.User, err error) {
-	// untuk insert user,
-	// di gorm menyediakan beberapa method
-	// Save
-	// Create
-	// FirstOrCreate
-
 	tx := u.db.
 		Model(&model.User{}).
 		Create(&userIn)
@@ -176,19 +157,6 @@ func (u *UserGormRepoImpl) InsertUser(ctx context.Context, userIn model.User) (u
 }
 
 func (u *UserGormRepoImpl) BulkInsertUser(ctx context.Context, userIn []model.User) (err error) {
-	// untuk insert user,
-	// di gorm menyediakan beberapa method
-	// Save
-	// Create
-	// FirstOrCreate
-
-	// kita mau validasi
-	// sebelum create, kita harus check dulu
-	// kalau name admin, dia tidak akan valid
-	// dengan gorm, kita bisa menambahkan HOOK
-	// HOOK -> suato function yang akan execute
-	// sebelum melakukan create
-
 	tx := u.db.
 		Model(&model.User{}).
 		Create(&userIn)
@@ -201,10 +169,6 @@ func (u *UserGormRepoImpl) BulkInsertUser(ctx context.Context, userIn []model.Us
 }
 
 func (u *UserGormRepoImpl) UpdateUser(ctx context.Context, userIn model.User) (err error) {
-	// kalau kita hanya ingin update 1 column
-	// bisa menggunakan update
-	// multiple column, kita bisa menggunakan Updates
-
 	tx := u.db.
 		Model(&model.User{}).
 		Where("id = ?", userIn.Id).
@@ -225,11 +189,10 @@ func (u *UserGormRepoImpl) UpdateUser(ctx context.Context, userIn model.User) (e
 func (u *UserGormRepoImpl) DeleteUserById(ctx context.Context, userId uint64) (user model.User, err error) {
 	tx := u.db.
 		Model(&model.User{}).
-		Clauses(clause.Returning{}). // clause to return data after delete
+		// clause to return data after delete
+		Clauses(clause.Returning{}).
 		Where("id = ?", userId).
 		Delete(&user)
-		// by default, func delete
-		// di gorm akan mengupdate column deleted_at
 	if err = tx.Error; err != nil {
 		return
 	}
@@ -242,17 +205,11 @@ func (u *UserGormRepoImpl) DeleteUserById(ctx context.Context, userId uint64) (u
 }
 
 func (u *UserGormRepoImpl) HardDeleteUserById(ctx context.Context, userId uint64) (user model.User, err error) {
-	// untuk custom query, kita bisa menggunakan
-	// Raw method di gorm
-	// u.db.Raw()
-
 	tx := u.db.
 		Unscoped().
 		Model(&model.User{}).
 		Where("id = ?", userId).
 		Delete(&model.User{})
-		// unscope akan menandakan gorm
-		// untuk hard delete row
 	if err = tx.Error; err != nil {
 		return
 	}

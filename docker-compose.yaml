@@ -14,7 +14,7 @@ services:
     deploy:
       mode: replicated
       endpoint_mode: dnsrr
-      replicas: 3
+      replicas: 1
       resources:
         limits:
           cpus: '0.50'

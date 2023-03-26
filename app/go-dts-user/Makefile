@@ -1,3 +1,5 @@
+run:
+	go run main.go -configFile=local -source=GORM
 mock:
 	echo "mock"
 swagger:
