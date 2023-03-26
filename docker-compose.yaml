@@ -2,14 +2,15 @@ version: '3.9'
 services:
   go-dts-user:
     hostname: go-dts-user
+    restart: on-failure
     build: 
       context: app/go-dts-user
       dockerfile: deployment/build/Dockerfile
       no_cache: true
-    # ports:
-    #   - "9090-9092:9090"
     links:
      - postgres
+    depends_on:
+      - postgres
     deploy:
       mode: replicated
       endpoint_mode: dnsrr
@@ -24,8 +25,13 @@ services:
     networks:
       - backend
   nginx:
+    restart: on-failure
     container_name: nginx-dts
-    build: nginx/.
+    build: 
+      context: nginx
+      dockerfile: Dockerfile
+    depends_on:
+     - go-dts-user
     links:
      - go-dts-user
     ports:
@@ -33,15 +39,17 @@ services:
     networks:
       - backend
   postgres:
+    restart: on-failure
     container_name: postgres-dts
-    image: postgres
-    environment:
-      - POSTGRES_PASSWORD=mysecretpassword
+    build: 
+      context: postgres
+      dockerfile: Dockerfile
+    env_file:
+      - postgres/.env
     ports:
      - "25432:5432"
     networks:
       - backend
 networks:
   backend:
-    name: backend-network
     driver: bridge
