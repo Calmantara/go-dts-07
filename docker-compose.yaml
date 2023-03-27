@@ -3,10 +3,11 @@ services:
   go-dts-user:
     hostname: go-dts-user
     restart: on-failure
-    build: 
-      context: app/go-dts-user
-      dockerfile: deployment/build/Dockerfile
-      no_cache: true
+    image: go-dts-user
+    # build: 
+    #   context: app/go-dts-user
+    #   dockerfile: deployment/build/Dockerfile
+    #   # no_cache: true
     links:
      - postgres
     depends_on:
@@ -14,7 +15,7 @@ services:
     deploy:
       mode: replicated
       endpoint_mode: dnsrr
-      replicas: 1
+      replicas: 3
       resources:
         limits:
           cpus: '0.50'
@@ -25,11 +26,13 @@ services:
     networks:
       - backend
   nginx:
+    hostname: dts-nginx
     restart: on-failure
-    container_name: nginx-dts
-    build: 
-      context: nginx
-      dockerfile: Dockerfile
+    container_name: dts-nginx
+    # build: 
+      # context: nginx
+      # dockerfile: Dockerfile
+    image: dts-nginx
     depends_on:
      - go-dts-user
     links:
@@ -39,11 +42,13 @@ services:
     networks:
       - backend
   postgres:
+    hostname: dts-postgres
     restart: on-failure
-    container_name: postgres-dts
-    build: 
-      context: postgres
-      dockerfile: Dockerfile
+    container_name: dts-postgres
+    # build: 
+    #   context: postgres
+    #   dockerfile: Dockerfile
+    image: dts-postgres
     env_file:
       - postgres/.env
     ports:
@@ -52,4 +57,4 @@ services:
       - backend
 networks:
   backend:
-    driver: bridge
+    driver: overlay

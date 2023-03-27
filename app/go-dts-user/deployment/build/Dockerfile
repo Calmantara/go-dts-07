@@ -8,5 +8,5 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 WORKDIR /app
 COPY --from=builder /app/go/go-dts-user ./
-COPY --from=builder /app/go/config/*.yaml ./config
+COPY --from=builder /app/go/config/local.yaml ./config/local.yaml
 CMD ["./go-dts-user"]  
