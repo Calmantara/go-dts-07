@@ -8,12 +8,8 @@ import (
 	"gorm.io/gorm"
 )
 
-// https://gorm.io/docs/models.html
-// bagaimana caranya kita menyambungkan
-// golang struct dengan gorm
+
 type User struct {
-	// - di json, menandakan golang akan mengabaikan properti
-	// - di gorm, menandakan gorm akan mengabaikan properti
 	Id        uint64         `json:"id" gorm:"column:id;type:integer;primaryKey;autoIncrement;not null"`
 	Name      string         `json:"name" gorm:"column:name;not null"`
 	Email     string         `json:"email" gorm:"column:email;uniqueIndex;not null"`
@@ -24,15 +20,9 @@ type User struct {
 	DeletedAt gorm.DeletedAt `json:"-" gorm:"index"`
 	Photo     *UserPhoto     `json:"photo,omitempty" gorm:"foreignKey:UserId;reference:Id"`
 	Photos    []UserPhoto    `json:"photos,omitempty" gorm:"foreignKey:UserId;reference:Id"`
-	// gorm.Model
 }
 
-// menambahkan HOOK gorm
-// begin transaction
-// BeforeSave
-// BeforeCreate
-// AfterCreate
-// AfterSave
+
 
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	if strings.EqualFold(u.Name, "admin") {
@@ -49,5 +39,4 @@ type UserPhoto struct {
 	UpdatedAt  time.Time      `json:"updated_at"`
 	DeletedAt  gorm.DeletedAt `json:"-" gorm:"index"`
 	UserDetail *User          `json:"user_detail,omitempty" gorm:"foreignKey:UserId;reference:Id"`
-	// gorm.Model
 }

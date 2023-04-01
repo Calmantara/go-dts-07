@@ -3,12 +3,14 @@ package server
 import (
 	"context"
 
-	"github.com/Calmantara/go-dts-user/config"
+	"github.com/Calmantara/go-common/config"
+	
+	lc "github.com/Calmantara/go-dts-user/config"
 	userhdl "github.com/Calmantara/go-dts-user/module/handler/user"
 	userrepo "github.com/Calmantara/go-dts-user/module/repository/user"
 	usersvc "github.com/Calmantara/go-dts-user/module/service/user"
-	c "github.com/Calmantara/go-dts-user/pkg/context"
-	"github.com/Calmantara/go-dts-user/pkg/logger"
+	c "github.com/Calmantara/go-common/pkg/context"
+	"github.com/Calmantara/go-common/pkg/logger"
 )
 
 type handlers struct {
@@ -19,7 +21,7 @@ func initDI() handlers {
 	ctx, _ := c.GetCorrelationID(context.Background())
 
 	logger.Info(ctx, "setup repository")
-	dataStore := config.ConnectDataStore()
+	dataStore := lc.ConnectDataStore()
 	userRepo := userrepo.NewUserMap(dataStore)
 
 	switch config.Load.DataSource.Mode {

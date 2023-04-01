@@ -3,7 +3,7 @@ package logger
 import (
 	"context"
 
-	c "github.com/Calmantara/go-dts-user/pkg/context"
+	c "github.com/Calmantara/go-common/pkg/context"
 	"go.uber.org/zap"
 )
 

@@ -7,7 +7,7 @@ import (
 
 	"github.com/Calmantara/go-dts-user/module/model"
 	"github.com/Calmantara/go-dts-user/module/service/user"
-	"github.com/Calmantara/go-dts-user/pkg/response"
+	"github.com/Calmantara/go-common/pkg/response"
 	"github.com/gin-gonic/gin"
 )
 

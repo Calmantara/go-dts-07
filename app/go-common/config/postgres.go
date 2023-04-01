@@ -35,11 +35,6 @@ func NewPostgresConn() (db *sql.DB) {
 	// set extended config
 	postgresPoolConf(db)
 
-	// defer close dilakukan
-	// supaya apps menutup koneksi
-	// ketika apps dimatikan
-	// defer db.Close()
-
 	// test connection
 	if err := db.Ping(); err != nil {
 		panic(err)
@@ -48,9 +43,6 @@ func NewPostgresConn() (db *sql.DB) {
 }
 
 func NewPostgresGormConn() (db *gorm.DB) {
-	// connect ke database menggunakan lib gorm
-	// https://gorm.io/docs/query.html
-
 	// connect to db
 	newLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer

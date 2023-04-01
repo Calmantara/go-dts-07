@@ -5,7 +5,7 @@ import (
 	"errors"
 	"log"
 
-	"github.com/Calmantara/go-dts-user/config"
+	"github.com/Calmantara/go-common/config"
 	"github.com/Calmantara/go-dts-user/module/model"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"

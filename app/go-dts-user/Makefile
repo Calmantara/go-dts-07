@@ -1,10 +1,12 @@
 run:
 	go run main.go -configFile=local -source=GORM
-build-image:
-	docker build -t go-dts-user -f deployment/build/Dockerfile .
+build:
+
+build-image: mock test swagger
+	./deployment/script/build.sh
 mock:
 	echo "mock"
 swagger:
-	echo "swagger"
+	swag init -g ./server/http.go
 test:
 	go test -race -short -coverprofile=./cov.out ./...
