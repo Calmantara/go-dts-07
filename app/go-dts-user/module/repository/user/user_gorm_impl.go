@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/Calmantara/go-common/config"
-	"github.com/Calmantara/go-dts-user/module/model"
+	model "github.com/Calmantara/go-dts-user/module/model/user"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )

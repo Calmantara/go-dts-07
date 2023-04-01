@@ -6,7 +6,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/Calmantara/go-dts-user/module/model"
+	model "github.com/Calmantara/go-dts-user/module/model/user"
 )
 
 type UserPgRepoImpl struct {

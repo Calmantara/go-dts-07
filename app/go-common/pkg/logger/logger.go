@@ -22,11 +22,13 @@ func (c LogKey) String() string {
 }
 
 func init() {
-	conf := zap.NewDevelopmentConfig()
+	conf := zap.NewProductionConfig()
 	conf.Encoding = "json"
+	conf.DisableStacktrace = true
 
 	logger, _ := conf.Build(
 		zap.AddCallerSkip(1),
+	// zap.AddCaller(),
 	)
 
 	defer logger.Sync() // flushes buffer, if any

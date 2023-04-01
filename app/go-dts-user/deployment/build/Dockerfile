@@ -9,4 +9,5 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /app
 COPY ./go-dts-user ./
 COPY ./config/local.yaml ./config/local.yaml
-CMD ["./go-dts-user"]  
+COPY ./docs ./
+CMD ["./go-dts-user","-configFile=local", "-source=GORM"]  

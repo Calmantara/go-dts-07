@@ -13,6 +13,6 @@ type SuccessResponse struct {
 }
 
 type ErrorResponse struct {
-	Message  string `json:"message"`
-	ErrorMsg string `json:"errorMsg"`
+	Message string `json:"message"`
+	Error   string `json:"error"`
 }

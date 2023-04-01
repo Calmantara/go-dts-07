@@ -5,7 +5,7 @@ import (
 	"errors"
 
 	"github.com/Calmantara/go-dts-user/config"
-	"github.com/Calmantara/go-dts-user/module/model"
+	model "github.com/Calmantara/go-dts-user/module/model/user"
 )
 
 type UserMapImpl struct {

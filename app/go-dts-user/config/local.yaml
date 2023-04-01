@@ -9,7 +9,7 @@ dataSource:
   postgres:
     master:
       host: postgres
-      port: 25432
+      port: 35432
       dbName: user_management
       username: postgres
       password: mysecretpassword

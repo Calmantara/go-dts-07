@@ -9,25 +9,26 @@ import (
 type ContextKey string
 
 const (
-	corrId ContextKey = "X-Correlation-ID"
+	CorrID ContextKey = "X-Correlation-ID"
 )
 
 func (c ContextKey) String() string {
 	return string(c)
 }
 
-func GetCorrelationID(ctx context.Context) (context.Context, string) {
-	val := ctx.Value(corrId)
-	if val != nil {
-		vals, ok := val.(string)
-		if !ok || vals == "" {
-			vals = uuid.New().String()
-			ctx = context.WithValue(ctx, corrId, vals)
-		}
+func GetCorrelationID(ctxIn context.Context) (ctx context.Context, vals string) {
+	vals, ok := ctxIn.Value(CorrID.String()).(string)
+	if !ok || vals == "" {
+		vals = uuid.New().String()
+		ctx = context.WithValue(ctxIn, CorrID, vals)
 		return ctx, vals
 	}
-	vals := uuid.New().String()
-	ctx = context.WithValue(ctx, corrId, vals)
+
+	vals, ok = ctxIn.Value(CorrID.String()).(string)
+	if !ok || vals == "" {
+		vals = uuid.New().String()
+		ctx = context.WithValue(ctxIn, CorrID, vals)
+	}
 
 	return ctx, vals
 }

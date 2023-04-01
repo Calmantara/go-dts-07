@@ -1,6 +1,6 @@
 package config
 
-import "github.com/Calmantara/go-dts-user/module/model"
+import model "github.com/Calmantara/go-dts-user/module/model/user"
 
 type DataStore struct {
 	UserData map[uint64]model.User

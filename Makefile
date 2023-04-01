@@ -4,9 +4,9 @@ build:
 	make -C ./app/go-dts-user build-image
 	make -C ./redis build-image
 up:
-	docker-compose --compatibility up --build -d
+	docker-compose --compatibility -f docker/compose.yaml up --build -d
 up-stack:
-	docker stack deploy --compose-file docker-compose.yaml --orchestrator swarm dts-07
+	docker stack deploy --compose-file docker/stack.yaml --orchestrator swarm dts-07
 down:
 	docker-compose stop -t 1
 down-stack: 

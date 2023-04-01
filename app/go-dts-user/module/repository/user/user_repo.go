@@ -3,7 +3,7 @@ package user
 import (
 	"context"
 
-	"github.com/Calmantara/go-dts-user/module/model"
+	model "github.com/Calmantara/go-dts-user/module/model/user"
 )
 
 type UserRepo interface {

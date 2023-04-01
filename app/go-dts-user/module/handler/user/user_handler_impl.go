@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Calmantara/go-dts-user/module/model"
+	response "github.com/Calmantara/go-common/pkg/response"
+	model "github.com/Calmantara/go-dts-user/module/model/user"
 	"github.com/Calmantara/go-dts-user/module/service/user"
-	"github.com/Calmantara/go-common/pkg/response"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,12 +21,26 @@ func NewUserHandler(userSvc user.UserService) UserHandler {
 	}
 }
 
+// @BasePath /api/v1/user
+
+// Find User Detail
+// @Summary finding user record
+// @Schemes http
+// @Description fetch user information by id
+// @Accept json
+// @Param id query int true "user id"
+// @Produce json
+// @Success 200 {object} response.SuccessResponse{data=model.GetUserResponse}
+// @Failure 400 {object} response.ErrorResponse{}
+// @Failure 422 {object} response.ErrorResponse{}
+// @Failure 500 {object} response.ErrorResponse{}
+// @Router /user [get]
 func (u *UserHdlImpl) FindUserByIdHdl(ctx *gin.Context) {
 	id := ctx.Query("id")
 	if id == "" {
 		ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
-			Message:  "failed to find user",
-			ErrorMsg: response.InvalidQuery,
+			Message: "failed to find user",
+			Error:   response.InvalidQuery,
 		})
 		return
 	}
@@ -34,8 +48,8 @@ func (u *UserHdlImpl) FindUserByIdHdl(ctx *gin.Context) {
 	idUint, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
-			Message:  "failed to find user",
-			ErrorMsg: response.InvalidParam,
+			Message: "failed to find user",
+			Error:   response.InvalidParam,
 		})
 		return
 	}
@@ -44,16 +58,16 @@ func (u *UserHdlImpl) FindUserByIdHdl(ctx *gin.Context) {
 	user, err := u.userSvc.FindUserByIdSvc(ctx, idUint)
 	if err != nil {
 		if err.Error() == "user is not found" {
-			ctx.JSON(http.StatusNotFound, response.ErrorResponse{
-				Message:  "failed to find user",
-				ErrorMsg: err.Error(),
+			ctx.JSON(http.StatusUnprocessableEntity, response.ErrorResponse{
+				Message: "failed to find user",
+				Error:   err.Error(),
 			})
 			return
 		}
 
 		ctx.JSON(http.StatusInternalServerError, response.ErrorResponse{
-			Message:  "failed to find user",
-			ErrorMsg: response.SomethingWentWrong,
+			Message: "failed to find user",
+			Error:   response.SomethingWentWrong,
 		})
 		return
 	}
@@ -63,13 +77,21 @@ func (u *UserHdlImpl) FindUserByIdHdl(ctx *gin.Context) {
 	})
 }
 
+// Find All User
+// @Summary finding all user record
+// @Schemes http
+// @Description fetch all user information
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.SuccessResponse{data=[]model.GetUserResponse}
+// @Router /user/all [get]
 func (u *UserHdlImpl) FindAllUsersHdl(ctx *gin.Context) {
 	users, err := u.userSvc.FindAllUsersSvc(ctx)
 	if err != nil {
 		// bad code, should be wrapped in other package
 		ctx.JSON(http.StatusInternalServerError, response.ErrorResponse{
-			Message:  "failed to get users",
-			ErrorMsg: response.SomethingWentWrong,
+			Message: "failed to get users",
+			Error:   response.SomethingWentWrong,
 		})
 		return
 	}
@@ -79,14 +101,26 @@ func (u *UserHdlImpl) FindAllUsersHdl(ctx *gin.Context) {
 	})
 }
 
+// Insert New User
+// @Summary insert new user info
+// @Schemes http
+// @Description insert new user info
+// @Accept json
+// @Param user body model.CreateUser true "user payload"
+// @Produce json
+// @Success 202 {object} response.SuccessResponse{data=model.CreateUserResponse}
+// @Failure 400 {object} response.ErrorResponse{}
+// @Failure 422 {object} response.ErrorResponse{}
+// @Failure 500 {object} response.ErrorResponse{}
+// @Router /user [post]
 func (u *UserHdlImpl) InsertUserHdl(ctx *gin.Context) {
 	// mendapatkan body
-	var usrIn model.User
+	var usrIn model.CreateUser
 
 	if err := ctx.Bind(&usrIn); err != nil {
 		ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
-			Message:  "failed to insert user",
-			ErrorMsg: response.InvalidBody,
+			Message: "failed to insert user",
+			Error:   response.InvalidBody,
 		})
 		return
 	}
@@ -94,8 +128,8 @@ func (u *UserHdlImpl) InsertUserHdl(ctx *gin.Context) {
 	// validate name and email
 	if usrIn.Email == "" || usrIn.Name == "" {
 		ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
-			Message:  "failed to insert user",
-			ErrorMsg: response.InvalidParam,
+			Message: "failed to insert user",
+			Error:   response.InvalidParam,
 		})
 		return
 	}
@@ -105,15 +139,15 @@ func (u *UserHdlImpl) InsertUserHdl(ctx *gin.Context) {
 		// bad code, should be wrapped in other package
 		if err.Error() == "error duplication email" {
 			ctx.JSON(http.StatusUnprocessableEntity, response.ErrorResponse{
-				Message:  "failed to insert user",
-				ErrorMsg: err.Error(),
+				Message: "failed to insert user",
+				Error:   err.Error(),
 			})
 			return
 		}
 
 		ctx.JSON(http.StatusInternalServerError, response.ErrorResponse{
-			Message:  "failed to insert user",
-			ErrorMsg: response.SomethingWentWrong,
+			Message: "failed to insert user",
+			Error:   response.SomethingWentWrong,
 		})
 		return
 	}
@@ -124,17 +158,30 @@ func (u *UserHdlImpl) InsertUserHdl(ctx *gin.Context) {
 	})
 }
 
+// Update User Detail
+// @Summary update user detail
+// @Schemes http
+// @Description update user info by id
+// @Accept json
+// @Param user body model.UpdateUser false "user payload"
+// @Param id path int true "user id"
+// @Produce json
+// @Success 202 {object} response.SuccessResponse{}
+// @Failure 400 {object} response.ErrorResponse{}
+// @Failure 422 {object} response.ErrorResponse{}
+// @Failure 500 {object} response.ErrorResponse{}
+// @Router /user/{id} [put]
 func (u *UserHdlImpl) UpdateUserHdl(ctx *gin.Context) {
 	idUint, err := u.getIdFromParam(ctx)
 	if err != nil {
 		return
 	}
 	// binding payload
-	var usrIn model.User
+	var usrIn model.UpdateUser
 	if err := ctx.Bind(&usrIn); err != nil {
 		ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
-			Message:  "failed to update user",
-			ErrorMsg: response.InvalidBody,
+			Message: "failed to update user",
+			Error:   response.InvalidBody,
 		})
 		return
 	}
@@ -143,24 +190,24 @@ func (u *UserHdlImpl) UpdateUserHdl(ctx *gin.Context) {
 	// validate name
 	if usrIn.Name == "" {
 		ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
-			Message:  "failed to update user",
-			ErrorMsg: response.InvalidParam,
+			Message: "failed to update user",
+			Error:   response.InvalidParam,
 		})
 		return
 	}
 
 	if err := u.userSvc.UpdateUserSvc(ctx, usrIn); err != nil {
 		if err.Error() == "user is not found" {
-			ctx.JSON(http.StatusNotFound, response.ErrorResponse{
-				Message:  "failed to update user",
-				ErrorMsg: err.Error(),
+			ctx.JSON(http.StatusUnprocessableEntity, response.ErrorResponse{
+				Message: "failed to update user",
+				Error:   err.Error(),
 			})
 			return
 		}
 
 		ctx.JSON(http.StatusInternalServerError, response.ErrorResponse{
-			Message:  "failed to update user",
-			ErrorMsg: response.SomethingWentWrong,
+			Message: "failed to update user",
+			Error:   response.SomethingWentWrong,
 		})
 		return
 	}
@@ -169,6 +216,18 @@ func (u *UserHdlImpl) UpdateUserHdl(ctx *gin.Context) {
 	})
 }
 
+// Delete User Detail
+// @Summary soft delete user record
+// @Schemes http
+// @Description add deleted_at param flag
+// @Accept json
+// @Param id path int true "user id"
+// @Produce json
+// @Success 200 {object} response.SuccessResponse{data=model.GetUserResponse}
+// @Failure 400 {object} response.ErrorResponse{}
+// @Failure 422 {object} response.ErrorResponse{}
+// @Failure 500 {object} response.ErrorResponse{}
+// @Router /user/{id} [delete]
 func (u *UserHdlImpl) DeleteUserByIdHdl(ctx *gin.Context) {
 	idUint, err := u.getIdFromParam(ctx)
 	if err != nil {
@@ -177,20 +236,20 @@ func (u *UserHdlImpl) DeleteUserByIdHdl(ctx *gin.Context) {
 	deletedUser, err := u.userSvc.DeleteUserByIdSvc(ctx, idUint)
 	if err != nil {
 		if err.Error() == "user is not found" {
-			ctx.JSON(http.StatusNotFound, response.ErrorResponse{
-				Message:  "failed to delete user",
-				ErrorMsg: err.Error(),
+			ctx.JSON(http.StatusUnprocessableEntity, response.ErrorResponse{
+				Message: "failed to delete user",
+				Error:   err.Error(),
 			})
 			return
 		}
 
 		ctx.JSON(http.StatusInternalServerError, response.ErrorResponse{
-			Message:  "failed to delete user",
-			ErrorMsg: response.SomethingWentWrong,
+			Message: "failed to delete user",
+			Error:   response.SomethingWentWrong,
 		})
 		return
 	}
-	ctx.JSON(http.StatusAccepted, response.SuccessResponse{
+	ctx.JSON(http.StatusOK, response.SuccessResponse{
 		Message: "success delete user",
 		Data:    deletedUser,
 	})
@@ -201,8 +260,8 @@ func (u *UserHdlImpl) getIdFromParam(ctx *gin.Context) (idUint uint64, err error
 	if id == "" {
 		err = errors.New("failed id")
 		ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
-			Message:  "failed to update user",
-			ErrorMsg: response.InvalidParam,
+			Message: "failed to update user",
+			Error:   response.InvalidParam,
 		})
 		return
 	}
@@ -211,8 +270,8 @@ func (u *UserHdlImpl) getIdFromParam(ctx *gin.Context) (idUint uint64, err error
 	if err != nil {
 		err = errors.New("failed parse id")
 		ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
-			Message:  "failed to update user",
-			ErrorMsg: response.InvalidParam,
+			Message: "failed to update user",
+			Error:   response.InvalidParam,
 		})
 		return
 	}

@@ -1,4 +1,4 @@
-package model
+package user
 
 import (
 	"errors"
@@ -7,7 +7,6 @@ import (
 
 	"gorm.io/gorm"
 )
-
 
 type User struct {
 	Id        uint64         `json:"id" gorm:"column:id;type:integer;primaryKey;autoIncrement;not null"`
@@ -21,8 +20,6 @@ type User struct {
 	Photo     *UserPhoto     `json:"photo,omitempty" gorm:"foreignKey:UserId;reference:Id"`
 	Photos    []UserPhoto    `json:"photos,omitempty" gorm:"foreignKey:UserId;reference:Id"`
 }
-
-
 
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	if strings.EqualFold(u.Name, "admin") {

@@ -1,0 +1,58 @@
+version: '3.9'
+services:
+  go-dts-user:
+    hostname: go-dts-user
+    restart: on-failure
+    image: go-dts-user
+    links:
+     - postgres
+     - redis
+    depends_on:
+      - postgres
+      - redis
+    deploy:
+      mode: replicated
+      endpoint_mode: dnsrr
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+    networks:
+      - backend
+  nginx:
+    hostname: dts-nginx
+    restart: on-failure
+    image: dts-nginx
+    depends_on:
+     - go-dts-user
+    links:
+     - go-dts-user
+    ports:
+      - 80:80
+    networks:
+      - backend
+  postgres:
+    hostname: dts-postgres
+    restart: on-failure
+    image: dts-postgres
+    env_file:
+      - ../postgres/.env
+    ports:
+     - "35432:5432"
+    networks:
+      - backend
+  redis:
+    hostname: dts-redis
+    restart: on-failure
+    image: dts-redis
+    ports:
+     - "36379:6379"
+    networks:
+      - backend
+networks:
+  backend:
+    driver: overlay 
