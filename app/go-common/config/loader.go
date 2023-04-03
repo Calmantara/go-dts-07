@@ -2,7 +2,6 @@ package config
 
 import (
 	"flag"
-
 	"log"
 
 	"github.com/spf13/viper"
@@ -56,8 +55,11 @@ type (
 // init config to load all
 // config sturcture
 func init() {
-	var configName = flag.String("configName", "local", "config name for service, default local")
-	var source = flag.String("source", "MAP", "data source mode for service, default MAP")
+	configName := flag.String("config", "local", "config name for service, default local")
+	source := flag.String("source", "MAP", "data source mode for service, default MAP")
+	flag.Parse()
+
+	log.Println("starting server with config, source", *configName, *source)
 
 	v := viper.New()
 	if err := initialiseFileAndEnv(v, *configName); err != nil {
@@ -77,6 +79,7 @@ func init() {
 	if availableMode[*source] {
 		Load.DataSource.Mode = *source
 	}
+	log.Println(Load)
 }
 
 func initialiseFileAndEnv(v *viper.Viper, configName string) error {

@@ -4,13 +4,14 @@ import (
 	"context"
 
 	"github.com/Calmantara/go-common/config"
-	
+
+	c "github.com/Calmantara/go-common/pkg/context"
+	"github.com/Calmantara/go-common/pkg/logger"
+	jsonplaceholder "github.com/Calmantara/go-dts-user/client/json-placeholder"
 	lc "github.com/Calmantara/go-dts-user/config"
 	userhdl "github.com/Calmantara/go-dts-user/module/handler/user"
 	userrepo "github.com/Calmantara/go-dts-user/module/repository/user"
 	usersvc "github.com/Calmantara/go-dts-user/module/service/user"
-	c "github.com/Calmantara/go-common/pkg/context"
-	"github.com/Calmantara/go-common/pkg/logger"
 )
 
 type handlers struct {
@@ -33,8 +34,11 @@ func initDI() handlers {
 		userRepo = userrepo.NewUserPgRepo(pgConn)
 	}
 
+	logger.Info(ctx, "setup client")
+	phCln := jsonplaceholder.NewJsonPlaceholderClient()
+
 	logger.Info(ctx, "setup service")
-	userSvc := usersvc.NewUserSvc(userRepo)
+	userSvc := usersvc.NewUserSvc(userRepo, phCln)
 
 	logger.Info(ctx, "setup handler")
 	userHdl := userhdl.NewUserHandler(userSvc)

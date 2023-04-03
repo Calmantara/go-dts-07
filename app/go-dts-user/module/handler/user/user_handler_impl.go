@@ -2,6 +2,7 @@ package user
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -22,15 +23,20 @@ func NewUserHandler(userSvc user.UserService) UserHandler {
 }
 
 // @BasePath /api/v1/user
+// @Accept json -> api kita akan menerima payload dalam bentuk apa
+// @Produce json -> api kita akan produce response dalam bentuk apa
+// @Param id query int true "user id" -> namaparam tipeparam datatipe mandatory desc
 
 // Find User Detail
+// @Tags User
 // @Summary finding user record
 // @Schemes http
 // @Description fetch user information by id
 // @Accept json
-// @Param id query int true "user id"
 // @Produce json
-// @Success 200 {object} response.SuccessResponse{data=model.GetUserResponse}
+// @Param Authorization header string true "basic authentication"
+// @Param id query int true "user id"
+// @Success 200 {object} response.SuccessResponse{data=model.GetUserResponseWithTodo}
 // @Failure 400 {object} response.ErrorResponse{}
 // @Failure 422 {object} response.ErrorResponse{}
 // @Failure 500 {object} response.ErrorResponse{}
@@ -44,6 +50,10 @@ func (u *UserHdlImpl) FindUserByIdHdl(ctx *gin.Context) {
 		})
 		return
 	}
+
+	userBasic := ctx.GetStringMapString("userBasic")
+	fmt.Println(userBasic)
+
 	// transform id string to uint64
 	idUint, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
@@ -78,12 +88,14 @@ func (u *UserHdlImpl) FindUserByIdHdl(ctx *gin.Context) {
 }
 
 // Find All User
+// @Tags User
 // @Summary finding all user record
 // @Schemes http
 // @Description fetch all user information
 // @Accept json
 // @Produce json
 // @Success 200 {object} response.SuccessResponse{data=[]model.GetUserResponse}
+// @Param Authorization header string true "basic authentication"
 // @Router /user/all [get]
 func (u *UserHdlImpl) FindAllUsersHdl(ctx *gin.Context) {
 	users, err := u.userSvc.FindAllUsersSvc(ctx)
@@ -102,12 +114,14 @@ func (u *UserHdlImpl) FindAllUsersHdl(ctx *gin.Context) {
 }
 
 // Insert New User
+// @Tags User
 // @Summary insert new user info
 // @Schemes http
 // @Description insert new user info
 // @Accept json
 // @Param user body model.CreateUser true "user payload"
 // @Produce json
+// @Param Authorization header string true "basic authentication"
 // @Success 202 {object} response.SuccessResponse{data=model.CreateUserResponse}
 // @Failure 400 {object} response.ErrorResponse{}
 // @Failure 422 {object} response.ErrorResponse{}
@@ -159,12 +173,14 @@ func (u *UserHdlImpl) InsertUserHdl(ctx *gin.Context) {
 }
 
 // Update User Detail
+// @Tags User
 // @Summary update user detail
 // @Schemes http
 // @Description update user info by id
 // @Accept json
 // @Param user body model.UpdateUser false "user payload"
 // @Param id path int true "user id"
+// @Param Authorization header string true "basic authentication"
 // @Produce json
 // @Success 202 {object} response.SuccessResponse{}
 // @Failure 400 {object} response.ErrorResponse{}
@@ -217,11 +233,13 @@ func (u *UserHdlImpl) UpdateUserHdl(ctx *gin.Context) {
 }
 
 // Delete User Detail
+// @Tags User
 // @Summary soft delete user record
 // @Schemes http
 // @Description add deleted_at param flag
 // @Accept json
 // @Param id path int true "user id"
+// @Param Authorization header string true "basic authentication"
 // @Produce json
 // @Success 200 {object} response.SuccessResponse{data=model.GetUserResponse}
 // @Failure 400 {object} response.ErrorResponse{}

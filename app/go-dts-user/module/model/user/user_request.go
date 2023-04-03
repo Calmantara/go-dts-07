@@ -14,3 +14,8 @@ type UpdateUser struct {
 	Email string    `json:"email"`
 	Dob   time.Time `json:"dob"`
 }
+
+type BasicUserRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}

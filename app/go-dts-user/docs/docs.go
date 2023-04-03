@@ -34,6 +34,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "User"
+                ],
                 "summary": "finding user record",
                 "parameters": [
                     {
@@ -56,7 +59,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/user.GetUserResponse"
+                                            "$ref": "#/definitions/user.GetUserResponseWithTodo"
                                         }
                                     }
                                 }
@@ -90,6 +93,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "User"
                 ],
                 "summary": "insert new user info",
                 "parameters": [
@@ -152,6 +158,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "User"
+                ],
                 "summary": "finding all user record",
                 "responses": {
                     "200": {
@@ -186,6 +195,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "User"
                 ],
                 "summary": "update user detail",
                 "parameters": [
@@ -240,6 +252,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "User"
+                ],
                 "summary": "soft delete user record",
                 "parameters": [
                     {
@@ -292,6 +307,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "jsonplaceholder.JsonPlaceholderResp": {
+            "type": "object",
+            "properties": {
+                "completed": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
         "response.ErrorResponse": {
             "type": "object",
             "properties": {
@@ -357,6 +389,26 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "user.GetUserResponseWithTodo": {
+            "type": "object",
+            "properties": {
+                "dob": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "todo": {
+                    "$ref": "#/definitions/jsonplaceholder.JsonPlaceholderResp"
                 }
             }
         },

@@ -5,6 +5,7 @@ const (
 	InvalidBody        = "invalid body request"
 	InvalidQuery       = "invalid query request"
 	SomethingWentWrong = "something went wrong"
+	Unauthorized       = "unauthorized request"
 )
 
 type SuccessResponse struct {

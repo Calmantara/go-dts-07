@@ -6,9 +6,10 @@ import (
 	"net/http"
 
 	"github.com/Calmantara/go-common/config"
-	"github.com/Calmantara/go-common/pkg/middleware"
+	commonmidware "github.com/Calmantara/go-common/pkg/middleware"
 	"github.com/Calmantara/go-dts-user/docs"
 	"github.com/Calmantara/go-dts-user/module/router/v1/user"
+	"github.com/Calmantara/go-dts-user/pkg/middleware"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -40,12 +41,12 @@ func NewHttpServer() (srv *http.Server) {
 	ginServer.Use(
 		gin.Logger(),   // untuk log request yang masuk
 		gin.Recovery(), // untuk auto restart kalau panic
-		middleware.CorrelationIDInterceptor(),
+		commonmidware.CorrelationIDInterceptor(),
 	)
 
 	// register router
 	docs.SwaggerInfo.BasePath = "/api/v1"
-	v1 := ginServer.Group("/api/v1")
+	v1 := ginServer.Group("/api/v1", middleware.BasicAuthMiddleware())
 	user.NewUserRouter(v1, hdls.userHdl)
 
 	// swagger

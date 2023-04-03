@@ -1,5 +1,16 @@
 basePath: /
 definitions:
+  jsonplaceholder.JsonPlaceholderResp:
+    properties:
+      completed:
+        type: boolean
+      id:
+        type: integer
+      title:
+        type: string
+      userId:
+        type: integer
+    type: object
   response.ErrorResponse:
     properties:
       error:
@@ -43,6 +54,19 @@ definitions:
         type: integer
       name:
         type: string
+    type: object
+  user.GetUserResponseWithTodo:
+    properties:
+      dob:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      todo:
+        $ref: '#/definitions/jsonplaceholder.JsonPlaceholderResp'
     type: object
   user.UpdateUser:
     properties:
@@ -90,7 +114,7 @@ paths:
             - $ref: '#/definitions/response.SuccessResponse'
             - properties:
                 data:
-                  $ref: '#/definitions/user.GetUserResponse'
+                  $ref: '#/definitions/user.GetUserResponseWithTodo'
               type: object
         "400":
           description: Bad Request
@@ -105,6 +129,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: finding user record
+      tags:
+      - User
     post:
       consumes:
       - application/json
@@ -141,6 +167,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: insert new user info
+      tags:
+      - User
   /user/{id}:
     delete:
       consumes:
@@ -177,6 +205,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: soft delete user record
+      tags:
+      - User
     put:
       consumes:
       - application/json
@@ -212,6 +242,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: update user detail
+      tags:
+      - User
   /user/all:
     get:
       consumes:
@@ -232,6 +264,8 @@ paths:
                   type: array
               type: object
       summary: finding all user record
+      tags:
+      - User
 schemes:
 - http
 swagger: "2.0"

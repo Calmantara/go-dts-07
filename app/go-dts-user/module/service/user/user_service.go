@@ -7,7 +7,7 @@ import (
 )
 
 type UserService interface {
-	FindUserByIdSvc(ctx context.Context, userId uint64) (user model.GetUserResponse, err error)
+	FindUserByIdSvc(ctx context.Context, userId uint64) (user model.GetUserResponseWithTodo, err error)
 	FindAllUsersSvc(ctx context.Context) (users []model.GetUserResponse, err error)
 	InsertUserSvc(ctx context.Context, userIn model.CreateUser) (user model.CreateUserResponse, err error)
 	UpdateUserSvc(ctx context.Context, userIn model.UpdateUser) (err error)
