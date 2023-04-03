@@ -13,7 +13,7 @@ DAY 11:
 6. Base64 Encoding
 7. Basic Auth Implementation
 
-![day11](./day11 (1).png)
+![day11](./day11.png)
 
 ```
 go get -u github.com/gin-gonic/gin
