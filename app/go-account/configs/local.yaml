@@ -1,0 +1,18 @@
+server:
+  name: go-account
+  env: local
+  http:
+    port: 9090
+dataSource:
+  mode: GORM
+  migrate: false
+  postgres:
+    master:
+      host: 127.0.0.1 
+      port: 35432
+      dbName: account
+      username: postgres
+      password: mysecretpassword
+      maxIdleConnection: 10
+      maxOpenConnection: 10
+      maxIdleTime: 10

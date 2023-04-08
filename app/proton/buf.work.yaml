@@ -1,0 +1,4 @@
+version: v1
+directories:
+  - go-common/proto
+  - go-account/proto

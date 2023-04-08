@@ -1,0 +1,95 @@
+version: "3.9"
+services:
+  go-account:
+    hostname: go-account
+    image: dt-go-account
+    restart: on-failure
+    depends_on:
+      - postgres
+      - redis
+      - kafka
+    deploy:
+      mode: replicated
+      endpoint_mode: dnsrr
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 50M
+        reservations:
+          cpus: "0.25"
+          memory: 20M
+    networks:
+      - backend
+  go-order:
+    hostname: go-order
+    image: dt-go-order
+    restart: on-failure
+    depends_on:
+      - postgres
+      - redis
+      - kafka
+    deploy:
+      mode: replicated
+      endpoint_mode: dnsrr
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 50M
+        reservations:
+          cpus: "0.25"
+          memory: 20M
+    networks:
+      - backend
+  krakend:
+    image: devopsfaith/krakend
+    volumes:
+      - "../gateway:/etc/krakend/"
+    environment:
+      - FC_ENABLE=1
+      - FC_OUT=/etc/krakend/out.json
+      - FC_PARTIALS=/etc/krakend/config/partials
+      - FC_SETTINGS=/etc/krakend/config/settings/local
+      - FC_TEMPLATES=/etc/krakend/config/templates
+    command: ["run","-dc","krakend.yaml"]
+  kafka:
+    hostname: kafka
+    restart: on-failure
+    image: provectuslabs/kafka-ui
+    networks:
+      - backend
+    depends_on:
+      - kafka
+  kafka_ui:
+    hostname: kafka_ui
+    restart: on-failure
+    image: redpandadata/redpanda
+    networks:
+      - backend
+    volumes:
+      - kafka 
+  postgres:
+    hostname: postgres 
+    restart: on-failure
+    image: dt-postgres
+    env_file:
+      - ../postgres/.env
+    ports:
+      - "35432:5432"
+    networks:
+      - backend
+    volumes:
+      - postgres
+  redis:
+    hostname: redis
+    restart: on-failure
+    image: redis
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge
+volumes:
+  postgres:
+  kafka:
