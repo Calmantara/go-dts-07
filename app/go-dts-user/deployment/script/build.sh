@@ -6,10 +6,10 @@ program="go-dts-user"
 # go mod tidy
 
 # # make artifact for program 
-# CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o $program
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o $program
 
 # make docker
-docker build --no-cache	 -t $program -f deployment/build/Dockerfile . 
+# docker build --no-cache	 -t $program -f deployment/build/Dockerfile . 
 
 # clean artifact
 # rm -rf $program
