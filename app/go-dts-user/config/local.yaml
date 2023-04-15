@@ -5,7 +5,7 @@ server:
     port: 9090
 dataSource:
   mode: GORM
-  migrate: false
+  migrate: true
   postgres:
     master:
       host: postgres
