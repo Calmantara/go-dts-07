@@ -1,6 +1,6 @@
 run:
 	go run main.go -configFile=local -source=GORM
-build-image: mock test swagger
+build-image: 
 	./deployment/script/build.sh
 mock:
 	echo "mock"

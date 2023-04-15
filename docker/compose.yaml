@@ -25,7 +25,7 @@ services:
   nginx:
     hostname: dts-nginx
     restart: on-failure
-    image: nginx
+    image: dts-nginx
     depends_on:
       - go-dts-user
     links:
@@ -37,7 +37,7 @@ services:
   postgres:
     hostname: dts-postgres
     restart: on-failure
-    image: postgres
+    image: dts-postgres
     env_file:
       - ../postgres/.env
     ports:
